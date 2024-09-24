@@ -12,7 +12,7 @@ Iconic sounds from Beginworld, now available at your command.
 ## Demo
 
 ```
-https://rocker.boo/beginworld-soundboard.html
+https://rocker.boo/begin-soundboard.html
 ```
 
 ## Dev
