@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>Beginworld Soundboard</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css"
+    />
+    <style>
+      #sounds {
+        display: grid;
+        grid-gap: 1em;
+        grid-template-columns: repeat(auto-fit, minmax(10em, 1fr));
+        margin: 1em;
+      }
+    </style>
+  </head>
+  <body>
+    <template id="sound-item">
+      <aside>
+        <figure>
+          <audio src=""></audio>
+          <figcaption></figcaption>
+        </figure>
+      </aside>
+    </template>
+
+    <main>
+      <audio src="" controls="" id="audio"></audio>
+      <div id="sounds"></div>
+    </main>
+
+    <template id="name">
+      <aside>
+        <button></button>
+      </aside>
+    </template>
+
+    <script>
+      function show_list(list) {
+        const template = document.querySelector("#sound-item");
+        list.forEach((item, i) => {
+          if (i > 100) {
+            return;
+          }
+
+          const { name, link } = item;
+          console.log(name, link);
+
+          const clone = template.content.cloneNode(true);
+
+          const audio = clone.querySelector("audio");
+          audio.src = link;
+          audio.controls = true;
+
+          const figcaption = clone.querySelector("figcaption");
+          figcaption.textContent = name;
+          document.querySelector("main").appendChild(clone);
+        });
+      }
+      function show_names(list) {
+        const template = document.querySelector("#name");
+        list.forEach((item, i) => {
+          const { name, link } = item;
+          console.log(name, link);
+
+          const clone = template.content.cloneNode(true);
+
+          const button = clone.querySelector("button");
+          button.addEventListener("click", (e) => {
+            const audio = document.querySelector("#audio");
+            audio.pause();
+            audio.src = link;
+            audio.play();
+          });
+
+          button.textContent = name;
+
+          document.querySelector("#sounds").appendChild(button);
+        });
+      }
+
+      const soundsJsonUrl =
+        "https://gist.githubusercontent.com/rockerBOO/c084305fa6187d5dfd9a1760f473e15c/raw/1a32b34ab6c7acfe8f9e211d11b717381d4caecd/sounds-link.json";
+      fetch(soundsJsonUrl)
+        .then((res) => res.json())
+        .then((json) => {
+					json.sort((a, b) => {
+
+						return a.name > b.name;
+					});
+          show_names(json);
+          window.beginSounds = json;
+        });
+    </script>
+  </body>
+</html>
