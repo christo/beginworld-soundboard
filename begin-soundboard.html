@@ -37,6 +37,8 @@
     </template>
 
     <script>
+      const soundsJsonUrl = "sounds-link.json";
+
       function show_list(list) {
         const template = document.querySelector("#sound-item");
         list.forEach((item, i) => {
@@ -80,12 +82,12 @@
         });
       }
 
-      const soundsJsonUrl =
-        "https://gist.githubusercontent.com/rockerBOO/c084305fa6187d5dfd9a1760f473e15c/raw/1a32b34ab6c7acfe8f9e211d11b717381d4caecd/sounds-link.json";
       fetch(soundsJsonUrl)
         .then((res) => res.json())
         .then((json) => {
-          json.sort((a, b) => a.name === b.name ? 0 : a.name > b.name ? 1 : -1);
+          json.sort((a, b) =>
+            a.name === b.name ? 0 : a.name > b.name ? 1 : -1,
+          );
           show_names(json);
           window.beginSounds = json;
         });
